@@ -1,0 +1,11 @@
+Copyright
+
+This Norfok Inc. product and the accompanying materials are copyrighted and contain
+proprietary information and trade secrets of Norfok Inc. Unauthorized copying of the product
+even if modified, merged, or included with other software, or of the written materials,
+is expressly forbidden. You may be held legally responsible for any infringement of Norfok Inc.
+intellectual property rights that is caused or encouraged by your failure to abide by the terms
+of this Agreement.
+
+copyright ©2001 Norfok Inc.
+norfok@norfok.com
