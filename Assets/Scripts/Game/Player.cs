@@ -13,6 +13,10 @@ public class Player : MonoBehaviour {
 	public AudioSource		AudioSource;
 	public AudioClip		gameMusic;
 	public AudioClip		equipedSound;
+	public Text				WeaponText;
+	public int 				Score;
+	public AudioClip		DeathSound;
+	public bool				DebugMode = false;
 
 	void Start ()
 	{
@@ -31,22 +35,27 @@ public class Player : MonoBehaviour {
 
 	void moveDown()
 	{
-		transform.localPosition -= new Vector3 (0f, 0.1f, 0f);
+		transform.localPosition -= new Vector3 (0f, 0.15f, 0f);
 	}
 
 	void moveUp()
 	{
-		transform.localPosition += new Vector3 (0f, 0.1f, 0f);
+		transform.localPosition += new Vector3 (0f, 0.15f, 0f);
 	}
 
 	void moveLeft()
 	{
-		transform.localPosition -= new Vector3 (0.1f, 0f, 0f);
+		transform.localPosition -= new Vector3 (0.15f, 0f, 0f);
+	}
+
+	public void Die()
+	{
+		Debug.Log ("I'm dead !");
 	}
 
 	void moveRight()
 	{
-		transform.localPosition += new Vector3 (0.1f, 0f, 0f);
+		transform.localPosition += new Vector3 (0.15f, 0f, 0f);
 	}
 
 	void findWeaponOnTheGround(Vector3 pos)
@@ -60,6 +69,7 @@ public class Player : MonoBehaviour {
 			if ((x < 1f && x > 0f) && (y < 1f && y > 0f)) {
 				Weapon.weaponObject = weapon;
 				weapon.unGround ();
+				AudioSource.PlayOneShot (equipedSound);
 				break;
 			}
 		}
@@ -88,6 +98,7 @@ public class Player : MonoBehaviour {
 		case Constants.DROP_WEAPON:
 			if (Weapon.weaponObject != null) {
 				Weapon.Drop (Camera.ScreenToWorldPoint (Input.mousePosition));
+				WeaponText.text = "NO WEAPON";
 			}
 			break;
 		}
@@ -95,7 +106,8 @@ public class Player : MonoBehaviour {
 
 	void Update ()
 	{
-		if (!AudioSource.isPlaying)
+		/*if (!AudioSource.isPlaying)
 			AudioSource.PlayOneShot (gameMusic);
+		*/
 	}
 }

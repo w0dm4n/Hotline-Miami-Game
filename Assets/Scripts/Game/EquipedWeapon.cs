@@ -8,6 +8,7 @@ public class EquipedWeapon : MonoBehaviour {
 	public SpriteRenderer	SpriteRenderer;
 	public bool				spriteCreated = false;
 	public Player			Player;
+	public AIController 	Enemy;
 
 	void Start () 
 	{
@@ -37,7 +38,9 @@ public class EquipedWeapon : MonoBehaviour {
 	public void Fire(Vector3 firePos)
 	{
 		if (weaponObject != null) {
-			weaponObject.Fire (firePos, Player);
+			if (weaponObject.Ammo > 0 || weaponObject.Ammo == -1 || Enemy != null) {
+				weaponObject.Fire (firePos, Player, Enemy);
+			}
 		}
 	}
 
@@ -49,6 +52,8 @@ public class EquipedWeapon : MonoBehaviour {
 				SpriteRenderer.sprite = Sprite.Create (weaponObject.weaponTexture, rec, new Vector2 (0.5f, 0.5f), 100);
 				spriteCreated = true;
 			}
+			if (Player != null)
+				Player.WeaponText.text = weaponObject.name + " - Ammo : " + weaponObject.Ammo.ToString();
 		}
 	}
 }

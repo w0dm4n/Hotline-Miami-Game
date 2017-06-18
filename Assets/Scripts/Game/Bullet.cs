@@ -11,25 +11,33 @@ public class Bullet : MonoBehaviour {
 	public float			range;
 	public bool				initialized;
 	public bool				dead;
+	public Player 			Player;
+	public AIController		Enemy;
 
-	void Start () 
-	{
-		
-	}
-
-	public void initiate(Texture2D texture, Player player, Vector3 goTo, Weapon weapon)
+	public void initiate(Texture2D texture, Player player, Vector3 goTo, Weapon weapon, AIController Enemy)
 	{
 		BulletTexture = texture;
 		pos = goTo;
 		weaponObject = weapon;
 		range = weaponObject.range;
+		this.Player = player;
+		this.Enemy = Enemy;
 
-		transform.localPosition = player.transform.position;
-		transform.localPosition = Vector3.MoveTowards (transform.position, new Vector3 (pos.x, pos.y, transform.position.z), 1f);
-		Rect rec = new Rect (0, 0, BulletTexture.width, BulletTexture.height);
-		SpriteRenderer.sprite = Sprite.Create (BulletTexture, rec, new Vector2 (0.5f, 0.5f), 100);
-		initialized = true;
-		player.AudioSource.PlayOneShot (weapon.fireSound);
+		if (player) {
+			transform.localPosition = player.transform.position;
+			transform.localPosition = Vector3.MoveTowards (transform.position, new Vector3 (pos.x, pos.y, transform.position.z), 1f);
+			Rect rec = new Rect (0, 0, BulletTexture.width, BulletTexture.height);
+			SpriteRenderer.sprite = Sprite.Create (BulletTexture, rec, new Vector2 (0.5f, 0.5f), 100);
+			initialized = true;
+			player.AudioSource.PlayOneShot (weapon.fireSound);
+		} else if (Enemy) {
+			transform.localPosition = Enemy.transform.position;
+			transform.localPosition = Vector3.MoveTowards (transform.position, new Vector3 (pos.x, pos.y, transform.position.z), 1f);
+			Rect rec = new Rect (0, 0, BulletTexture.width, BulletTexture.height);
+			SpriteRenderer.sprite = Sprite.Create (BulletTexture, rec, new Vector2 (0.5f, 0.5f), 100);
+			initialized = true;
+			Enemy.AudioSource.PlayOneShot (weapon.fireSound);
+		}
 		dead = false;
 	}
 
@@ -48,13 +56,15 @@ public class Bullet : MonoBehaviour {
 		}
 	}
 
-	/*void OnTriggerEnter2D(Collider2D coll)
-	{
-		Debug.Log (coll.gameObject.tag);
-	}*/
-
 	void OnCollisionEnter2D(Collision2D coll) {
 		if (coll.gameObject.tag == "Wall")
 			dead = true;
+		else if (coll.gameObject.tag == "Enemy") {
+			if (this.Enemy == null) // AI can't kill AI
+				coll.gameObject.GetComponent<AIController> ().Die ();
+		} else if (coll.gameObject.name == "Player") {
+			if (this.Player == null)
+				coll.gameObject.GetComponent<Player> ().Die ();
+		}
 	}
 }

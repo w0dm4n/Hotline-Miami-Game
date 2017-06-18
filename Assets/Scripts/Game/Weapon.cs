@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour {
 	public float 		timePerShot;
 	public float		shotTime;
 	public bool			HTHWeapon;
+	public int			Ammo;
 
 	void Start ()
 	{
@@ -40,13 +41,15 @@ public class Weapon : MonoBehaviour {
 		goTo = pos;
 	}
 
-	public void Fire(Vector3 firePos, Player player)
+	public void Fire(Vector3 firePos, Player player, AIController Enemy)
 	{
 		float diff = Time.fixedTime - shotTime;
-		if (diff >= timePerShot) {
-			Bullet ball = GameObject.Instantiate (player.FireBase);
-			ball.initiate (fireTexture, player, firePos, this);
+		if (diff > timePerShot) {
+			Bullet ball = GameObject.Instantiate ((player) ? player.FireBase : Enemy.FireBase);
+			ball.initiate (fireTexture, player, firePos, this, Enemy);
 			shotTime = Time.fixedTime;
+			if (Ammo != -1)
+				Ammo--;
 		}
 	}
 
