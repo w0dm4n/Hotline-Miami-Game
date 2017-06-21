@@ -40,7 +40,7 @@ public class BackgroundController : MonoBehaviour {
 		Camera = GameObject.Find ("Main Camera").GetComponent<Camera>();
 		ResizeSpriteToScreen (backGround, backGroundObject, Camera, 1, 1);
 		AudioSource.PlayOneShot (AudioClips[0], 1.0f);
-		Cursor.SetCursor(CursorTexture, Vector2.zero, CursorMode.Auto);
+		//Cursor.SetCursor(CursorTexture, Vector2.zero, CursorMode.Auto);
 
 		StartButton.onClick.AddListener (onStartGame);
 		ExitButton.onClick.AddListener (onExitGame);

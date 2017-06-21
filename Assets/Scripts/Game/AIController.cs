@@ -19,7 +19,9 @@ public class AIController : MonoBehaviour {
 	public EquipedWeapon	Weapon;
 	public Bullet			FireBase;
 	public Vector3 			startPosition;
-
+	public bool 			onWayPoint;
+	public Camera			Camera;
+	public CameraController	CameraController;
 
 	public void moveLegs()
 	{
@@ -49,6 +51,9 @@ public class AIController : MonoBehaviour {
 		Weapon.weaponObject = GameObject.Instantiate (Weapon.weaponObject);
 		startPosition = transform.localPosition;
 		FollowingPath = true;
+		onWayPoint = false;
+		Camera = GameObject.Find ("Main Camera").GetComponent<Camera>();
+		CameraController = Camera.GetComponent<CameraController> ();
 	}
 
 	public void Die()
@@ -83,7 +88,6 @@ public class AIController : MonoBehaviour {
 
 	void followPlayer()
 	{
-		float diff = Time.fixedTime - followTimer;
 		transform.localPosition = Vector3.MoveTowards (transform.position, new Vector3 (player.transform.localPosition.x, player.transform.localPosition.y, transform.position.z), 0.05f);
 
 		transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((player.transform.localPosition.y - transform.position.y), (player.transform.localPosition.x - transform.position.x)) * Mathf.Rad2Deg + 90);
@@ -123,25 +127,38 @@ public class AIController : MonoBehaviour {
 		}
 	}
 
+	void checkPath()
+	{
+		/* Too late for this shit */
+		/*
+			RaycastHit2D[] hits = Physics2D.RaycastAll (new Vector2(transform.position.x, transform.position.y), new Vector2(player.transform.position.x, player.transform.position.y));
+			bool isBefore = true;
+
+			foreach (RaycastHit2D hit in hits) {
+				if (hit.collider != null && hit.collider.gameObject != null) {
+					Debug.Log ("Name: " + hit.collider.gameObject.name + ", tag: " + hit.collider.gameObject.tag);
+				}
+			}
+		*/
+	}
+
 	void Update ()
 	{
+		if (CameraController.pauseGame)
+			return;
 		if (isDying) {
 			DieLoop ();
 		} else {
 			if (seeingPlayer) {
+				checkPath ();
 				followPlayer ();
 				shootPlayer ();
 			} else {
-				followPath ();
+				if (!onWayPoint) {
+					followPath ();
+				}
 			}
-			// AI Action
 		}
-	}
-
-	void OnTriggerExit2D(Collider2D coll) {
-		/*if (coll.gameObject.name == "Player") {
-			seeingPlayer = false;
-		}*/
 	}
 
 	void OnTriggerEnter2D(Collider2D coll) {

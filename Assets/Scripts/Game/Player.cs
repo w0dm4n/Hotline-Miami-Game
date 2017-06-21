@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 	public Animator			Animator;
 	public EquipedWeapon	Weapon;
 	public Camera			Camera;
+	public CameraController	CameraController;
 	public Bullet			FireBase;
 	public AudioSource		AudioSource;
 	public AudioClip		gameMusic;
@@ -17,10 +18,16 @@ public class Player : MonoBehaviour {
 	public int 				Score;
 	public AudioClip		DeathSound;
 	public bool				DebugMode = false;
+	public Canvas			Menu;
+	public Text 			LifePointsText;
+	public Text				ScoreText;
+	public int				LifePoints;
 
 	void Start ()
 	{
 		Camera = GameObject.Find ("Main Camera").GetComponent<Camera>();
+		CameraController = Camera.GetComponent<CameraController> ();
+		LifePoints = 1;
 	}
 
 	public void moveLegs()
@@ -50,7 +57,12 @@ public class Player : MonoBehaviour {
 
 	public void Die()
 	{
-		Debug.Log ("I'm dead !");
+		LifePoints--;
+		if (LifePoints == 0) {
+			Menu.transform.localScale = new Vector3 (0.01302f, 0.01302f, 0.01302f);
+			CameraController.Menu.transform.localPosition = new Vector3 (CameraController.Menu.transform.localPosition.x, CameraController.Menu.transform.localPosition.y, 1f);
+			CameraController.pauseGame = true;
+		}
 	}
 
 	void moveRight()
@@ -106,8 +118,9 @@ public class Player : MonoBehaviour {
 
 	void Update ()
 	{
-		/*if (!AudioSource.isPlaying)
+		if (!AudioSource.isPlaying)
 			AudioSource.PlayOneShot (gameMusic);
-		*/
+		LifePointsText.text = LifePoints.ToString ();
+		ScoreText.text = "Score : " + Score.ToString ();
 	}
 }

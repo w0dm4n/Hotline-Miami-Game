@@ -1,17 +1,18 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/FireCollider.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Game/Player.cs">
     <Files>
-      <File FileName="Assets/Scripts/Game/AIController.cs" Line="145" Column="3" />
-      <File FileName="Assets/Scripts/Game/Bullet.cs" Line="63" Column="47" />
-      <File FileName="Assets/Scripts/Game/CameraController.cs" Line="10" Column="25" />
-      <File FileName="Assets/Scripts/Game/WeaponFactory.cs" Line="20" Column="2" />
-      <File FileName="Assets/Scripts/Game/EquipedWeapon.cs" Line="41" Column="76" />
-      <File FileName="Assets/Scripts/Game/Weapon.cs" Line="49" Column="62" />
-      <File FileName="Assets/Scripts/Game/Player.cs" Line="95" Column="35" />
-      <File FileName="Assets/Scripts/Game/Constants.cs" Line="1" Column="1" />
-      <File FileName="Assets/Scripts/Game/Door.cs" Line="20" Column="20" />
+      <File FileName="Assets/Scripts/Game/AIController.cs" Line="65" Column="3" />
+      <File FileName="Assets/Scripts/Game/Bullet.cs" Line="14" Column="26" />
+      <File FileName="Assets/Scripts/Game/CameraController.cs" Line="80" Column="21" />
+      <File FileName="Assets/Scripts/Game/WeaponFactory.cs" Line="10" Column="15" />
+      <File FileName="Assets/Scripts/Game/EquipedWeapon.cs" Line="17" Column="2" />
+      <File FileName="Assets/Scripts/Game/Weapon.cs" Line="9" Column="34" />
+      <File FileName="Assets/Scripts/Game/Player.cs" Line="124" Column="38" />
+      <File FileName="Assets/Scripts/Game/Constants.cs" Line="11" Column="2" />
+      <File FileName="Assets/Scripts/Game/Door.cs" Line="12" Column="41" />
       <File FileName="Assets/Scripts/Game/FireCollider.cs" Line="25" Column="1" />
+      <File FileName="Assets/Scripts/StartMenu/BackgroundController.cs" Line="16" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -11,11 +11,43 @@ public class CameraController : MonoBehaviour {
 	public Player			Player;
 	public float			time;
 	public bool				firstColor;
+	public Canvas			Menu;
+	public Button			RestartButton;
+	public Button			ExitButton;
+	public bool				pauseGame;
+
+	void ResizeSpriteToScreen(SpriteRenderer sr, GameObject theSprite, Camera theCamera, int fitToScreenWidth, int fitToScreenHeight)
+	{
+		theSprite.transform.localScale = new Vector3(1, 1, 1);
+
+		float width = sr.bounds.size.x;
+		float height = sr.bounds.size.y;
+
+		var worldScreenHeight = theCamera.orthographicSize * 2.0;
+		var worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
+
+		if (fitToScreenWidth != 0)
+			theSprite.transform.localScale = new Vector3 ((float)(worldScreenWidth / width / fitToScreenWidth) * 1.2f, (float)theSprite.transform.localScale.y, (float)theSprite.transform.localScale.z);    
+		if (fitToScreenHeight != 0)
+			theSprite.transform.localScale = new Vector3 ((float)theSprite.transform.localScale.x, (float)(worldScreenHeight / height / fitToScreenHeight) * 1.2f, (float)theSprite.transform.localScale.z);
+	}
 
 	void Start () 
 	{
-		Cursor.SetCursor(CursorTexture, Vector2.zero, CursorMode.Auto);
 		Camera = GameObject.Find ("Main Camera").GetComponent<Camera>();
+		pauseGame = false;
+		RestartButton.onClick.AddListener (restartGame);
+		ExitButton.onClick.AddListener (exitGame);
+	}
+
+	void restartGame()
+	{
+		SceneManager.LoadScene ("Game", LoadSceneMode.Single);
+	}
+
+	void exitGame()
+	{
+		SceneManager.LoadScene ("menu", LoadSceneMode.Single);
 	}
 
 	void catchKeys()
@@ -29,7 +61,7 @@ public class CameraController : MonoBehaviour {
 		else {
 			Player.stopLegs ();
 		}
-		if (Input.GetMouseButtonDown (Constants.LEFT_CLICK)) {
+		if (Input.GetMouseButton (Constants.LEFT_CLICK)) {
 			Player.Weapon.Fire (Camera.ScreenToWorldPoint (Input.mousePosition));
 		}
 	}
@@ -58,6 +90,8 @@ public class CameraController : MonoBehaviour {
 
 	void Update ()
 	{
+		if (pauseGame)
+			return;
 		catchKeys ();
 		movePosition ();
 		setBackgroundColor ();
